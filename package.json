@@ -1,0 +1,55 @@
+{
+  "name": "php-block-background-color",
+  "publisher": "EmilHrisca",
+  "version": "1.0.2",
+  "displayName": "PhP Block Background color",
+  "description": "This extension helps the user to customize the php block of code in html to hightlight with different color",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Other"
+  ],
+"activationEvents": [
+  "onStartupFinished",
+  "onLanguage:php"
+],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+          "command": "extension.modifyBackground",
+          "title": "Activate PHP Background"
+      }
+    ],
+    "configuration": {
+      "title": "Space Background Settings",
+      "properties": {
+        "spaceBackground.backgroundColor": {
+          "type": "string",
+          "default": "rgba(255, 0, 0, 0.2)",
+          "description": "Set background color for PHP blocks (use rgba format for transparency)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.97.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "eslint": "^9.19.0",
+    "typescript": "^5.7.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}

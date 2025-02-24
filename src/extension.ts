@@ -3,6 +3,9 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
     console.log('Extension "space-background" is now active!');
 
+    // Variabila pentru a ține instanța decorării
+    let decorationType: vscode.TextEditorDecorationType | undefined;
+
     // Funcția pentru aplicarea decorării
     const updateBackground = (editor: vscode.TextEditor) => {
         const doc = editor.document;
@@ -13,7 +16,13 @@ export function activate(context: vscode.ExtensionContext) {
         const config = vscode.workspace.getConfiguration("spaceBackground");
         const backgroundColor = config.get<string>("backgroundColor", "rgba(48, 48, 48, 0.2)");
 
-        const decorationType = vscode.window.createTextEditorDecorationType({
+        // Crearea unei noi instanțe a decorării
+        if (decorationType) {
+            // Dacă există o instanță veche, o distrugem pentru a preveni suprascrierea necontrolată
+            decorationType.dispose();
+        }
+
+        decorationType = vscode.window.createTextEditorDecorationType({
             backgroundColor: backgroundColor,
             isWholeLine: true,
         });
@@ -50,6 +59,15 @@ export function activate(context: vscode.ExtensionContext) {
     // Se activează automat pentru fișiere PHP
     vscode.window.onDidChangeActiveTextEditor(editor => {
         if (editor && editor.document.languageId === 'php') {
+            updateBackground(editor);
+        }
+    });
+
+    // Recalculăm background-ul la fiecare modificare a documentului
+    vscode.workspace.onDidChangeTextDocument(event => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor && editor.document.languageId === 'php' && event.document === editor.document) {
+            // Curățăm decorările vechi și aplicăm noile
             updateBackground(editor);
         }
     });

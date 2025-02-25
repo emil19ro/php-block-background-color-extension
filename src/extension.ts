@@ -22,17 +22,15 @@ export function activate(context: vscode.ExtensionContext) {
             const config = vscode.workspace.getConfiguration("spaceBackground");
             const backgroundColor = config.get<string>("backgroundColor", "rgba(48, 48, 48, 0.2)");
 
-            // Crearea unei noi instanțe a decorării
-            if (decorationType) {
-                // Dacă există o instanță veche, o distrugem pentru a preveni suprascrierea necontrolată
-                decorationType.dispose();
+            // Reutilizarea aceleași instanțe de decorare
+            if (!decorationType) {
+                decorationType = vscode.window.createTextEditorDecorationType({
+                    backgroundColor: backgroundColor,
+                    isWholeLine: true,
+                });
             }
 
-            decorationType = vscode.window.createTextEditorDecorationType({
-                backgroundColor: backgroundColor,
-                isWholeLine: true,
-            });
-
+            // Creăm lista de decorări
             const decorations: vscode.DecorationOptions[] = [];
             let inPhpBlock = false;
 

@@ -1,7 +1,7 @@
 {
   "name": "php-block-background-color",
   "publisher": "EmilHrisca",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "displayName": "PhP Block Background color",
   "description": "This extension helps the user to customize the php block of code in html to hightlight with different color",
   "engines": {
